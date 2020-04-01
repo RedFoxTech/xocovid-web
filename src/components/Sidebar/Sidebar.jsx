@@ -30,6 +30,8 @@ class Sidebar extends React.Component {
     super(props);
     this.state = this.getCollapseStates(props.routes);
   }
+
+  name = localStorage.getItem('name')
   // this creates the intial state of this component based on the collapse routes
   // that it gets through this.props.routes
   getCollapseStates = routes => {
@@ -65,7 +67,7 @@ class Sidebar extends React.Component {
       if (prop.redirect) {
         return null;
       }
-      if (prop.name === "Pages" || prop.name === "Forms") {
+      if (prop.name === "Pages" || prop.name === "Forms" || prop.name === "Dashboard") {
         return null;
       }
       if (prop.collapse) {
@@ -155,28 +157,9 @@ class Sidebar extends React.Component {
         data-color={this.props.bgColor}
         data-active-color={this.props.activeColor}
       >
-        <div className="logo">
-          <a
-            href="https://www.creative-tim.com"
-            className="simple-text logo-mini"
-          >
-            <div className="logo-img">
-              <img src={logo} alt="react-logo" />
-            </div>
-          </a>
-          <a
-            href="https://www.creative-tim.com"
-            className="simple-text logo-normal"
-          >
-            XOCOVID
-          </a>
-        </div>
 
         <div className="sidebar-wrapper" ref="sidebar">
           <div className="user">
-            <div className="photo">
-              <img src={avatar} alt="Avatar" />
-            </div>
             <div className="info">
               <a
                 href="#pablo"
@@ -187,19 +170,18 @@ class Sidebar extends React.Component {
                 }
               >
                 <span>
-                  Chet Faker
-                  <b className="caret" />
+                  <p style={{ fontSize: '18px', color: '#FFF' }}>Olá, {this.name}</p>
+
                 </span>
               </a>
               <Collapse isOpen={this.state.openAvatar}>
                 <br></br>
-                <p style={{ fontSize: '18px', color: '#FFF' }}>Olá, Bianca Nunes</p>
-                <p style={{color:'#FFF'}}><b>Que bom que você está bem!</b></p>
-                <p style={{color:'#FFF'}}>Mas não se esqueça:</p>
+                <p style={{ color: '#FFF' }}><b>Que bom que você está bem!</b></p>
+                <p style={{ color: '#FFF' }}>Mas não se esqueça:</p>
                 <ul>
-                  <li style={{color:'#FFF'}}>Use máscara facial</li>
-                  <li style={{color:'#FFF'}}>Lave as mãos frequentemente</li>
-                  <li style={{color:'#FFF'}}>Use Alcool Gel 70%</li>
+                  <li style={{ color: '#FFF' }}>Use máscara facial</li>
+                  <li style={{ color: '#FFF' }}>Lave as mãos frequentemente</li>
+                  <li style={{ color: '#FFF' }}>Use Alcool Gel 70%</li>
                 </ul>
                 <ul className="nav">
                   <li>

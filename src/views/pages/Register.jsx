@@ -15,14 +15,8 @@
 
 */
 import React from "react";
-import * as Yup from 'yup'
 
-import ErrorMessages from '../../constants/ErrorMessages'
 import { createUser } from '../../services/user';
-import Pages from '../../constants/Pages'
-
-import ReactBSAlert from "react-bootstrap-sweetalert";
-
 
 
 // reactstrap components
@@ -55,38 +49,8 @@ const Register = (props) => {
   const [password, setPassword] = useState('');
   const history = useHistory();
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .required(ErrorMessages.required),
-    age: Yup.number()
-      .required(ErrorMessages.required),
-    email: Yup.string()
-      .email(ErrorMessages.email)
-      .required(ErrorMessages.required),
-    password: Yup.string()
-      .required(ErrorMessages.required)
-  });
 
-  const formatNumberMessage = message => message && typeof message === 'string' && /age must be a `number`/.test(message) && ErrorMessages.number;
 
-  const [state, setState] = useState(null);
-
-  function successAlert() {
-    this.setState({
-      alert: (
-        <ReactBSAlert
-          success
-          style={{ display: "block", marginTop: "-100px" }}
-          title="Good job!"
-          onConfirm={() => this.hideAlert()}
-          onCancel={() => this.hideAlert()}
-          confirmBtnBsStyle="info"
-        >
-          You clicked the button!
-        </ReactBSAlert>
-      )
-    });
-  };
 
   function handleSubmit(e) {
 
@@ -104,11 +68,13 @@ const Register = (props) => {
   }
 
   return (
-    <div className="register-page">
+    <div style={{ backgroundColor: 'rgba(196, 196, 196, 0.2' }} className="register-page">
       <Container >
-        <Row>
-          <Col className="mr-auto" lg="4" md="6">
-            <Card className="card-signup text-center">
+        <Row style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
+          <Col lg="4" md="6">
+            <Card style={{
+              boxShadow: '0 6px 10px -4px rgba(0, 0, 0, 0.15)'
+            }} className="card-signup text-center">
               <CardHeader>
                 <CardTitle tag="h4">Cadastro</CardTitle>
               </CardHeader>

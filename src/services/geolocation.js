@@ -9,7 +9,6 @@ async function _getLocationAsync(){
 
     localStorage.setItem('lat', lat);
     localStorage.setItem('lng', lng);
-    console.log(`longitude: ${ lng } | latitude: ${ lat }`);
 
     return lat;
   }

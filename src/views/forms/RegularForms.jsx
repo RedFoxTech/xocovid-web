@@ -27,13 +27,7 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   CardTitle,
-  Label,
-  FormGroup,
-  Form,
-  Input,
-  FormText,
   Row,
   Col
 } from "reactstrap";
@@ -64,6 +58,7 @@ class RegularForms extends React.Component {
     findLocation()
       .then(this.requestUserStatus({ symptoms, probability: 1, ...this.state }))
       .then(this.setState({ visibleModal: true }))
+      .then(window.location.href = '/admin/google-maps')
   }
   data = [
     { text: 'Cansaço', selected: false },
@@ -86,7 +81,6 @@ class RegularForms extends React.Component {
   }
 
   render() {
-    const { suspiciousPeople, casesConfirmed, yourCaseConfirmed, traveled } = this.state;
     return (
       <>
         <div className="content">

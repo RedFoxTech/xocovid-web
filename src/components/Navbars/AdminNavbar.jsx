@@ -16,23 +16,14 @@
 */
 import React from "react";
 import classnames from "classnames";
+
+import logo from '../../assets/img/logo.png'
+
 import {
   Button,
   Collapse,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   NavbarBrand,
   Navbar,
-  NavItem,
-  NavLink,
-  Nav,
   Container
 } from "reactstrap";
 
@@ -122,10 +113,8 @@ class AdminNavbar extends React.Component {
                 </button>
               </div>
               <NavbarBrand href="#pablo" onClick={e => e.preventDefault()}>
-                <span className="d-none d-md-block">
-                  XOCOVID
-                </span>
-                <span className="d-block d-md-none">XOCOVID</span>
+
+                <span><img width='200' src={logo}></img></span>
               </NavbarBrand>
             </div>
             <button
@@ -147,7 +136,7 @@ class AdminNavbar extends React.Component {
               navbar
               isOpen={this.state.collapseOpen}
             >
-              <Form>
+              {/* <Form>
                 <InputGroup className="no-border">
                   <Input defaultValue="" placeholder="Search..." type="text" />
                   <InputGroupAddon addonType="append">
@@ -156,7 +145,7 @@ class AdminNavbar extends React.Component {
                     </InputGroupText>
                   </InputGroupAddon>
                 </InputGroup>
-              </Form>
+              </Form> */}
               {/* <Nav navbar>
                 <NavItem>
                   <NavLink

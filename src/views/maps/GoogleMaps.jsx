@@ -15,13 +15,16 @@
 
 */
 import React from "react";
-import { useHistory } from 'react-router-dom'
+
+import axios from 'axios';
+
+import iconCase from '../../assets/img/record.svg'
 
 import { findLocation } from '../../services/geolocation'
 import { updateOrCreateUserStatus } from '../../services/userStatus'
 import { findPoints } from '../../services/points'
 
-import { Button, View } from 'reactstrap'
+import { Button } from 'reactstrap'
 // // react components used to create a google map
 import {
   withScriptjs,
@@ -30,8 +33,10 @@ import {
   Marker,
 } from "react-google-maps";
 
+import './style.css';
+
 // reactstrap components
-import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
+import { Card, CardBody, Row, Col } from "reactstrap";
 
 
 
@@ -42,29 +47,25 @@ class GoogleMaps extends React.Component {
 
     withGoogleMap(props => (
       <GoogleMap
-        defaultZoom={8}
+        defaultZoom={13}
         defaultCenter={{ lat: parseFloat(localStorage.getItem('lat')), lng: parseFloat(localStorage.getItem('lng')) }}
         defaultOptions={{
           scrollwheel: false
         }}
       >
         <Marker position={{ lat: parseFloat(localStorage.getItem('lat')), lng: parseFloat(localStorage.getItem('lng')) }} />
-        <Marker
-          averageCenter
-          enableRetinaIcons
-          gridSize={60}
-        >
 
-          {this.state.points ? this.state.points.map((marker, i) => (
-            <Marker
-              key={i}
-              position={{ lat: marker.coordinates[0], lng: marker.coordinates[1] }}
-            >
-            </Marker>
-          )) : null}
-        </Marker>
 
-      </GoogleMap>
+        {this.state.points.map((marker, i) => (
+          <Marker
+            icon={iconCase}
+            
+            key={i}
+            position={{ lat: marker.coordinates[0] + 4 * i, lng: marker.coordinates[1] + 10 }}
+          />
+        ))}
+
+      </GoogleMap >
     ))
   );
 
@@ -74,18 +75,23 @@ class GoogleMaps extends React.Component {
     errorMessage: null,
     points: []
   }
+
+  address = '';
+
   async componentDidMount() {
 
     // try {
-    const location = await findLocation()
+    await findLocation()
 
     const latitude = localStorage.getItem('lat');
     const longitude = localStorage.getItem('lng');
 
-    location = { latitude, longitude }
-    this.setState({ location })
+    axios.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + localStorage.getItem('lat') + ',' + localStorage.getItem('lng') + '&key=AIzaSyAC92EYBp1y9ok0hdO1myGrT8ODoy8-F30').then((response) => (this.address = (response.data.results[0].formatted_address)))
 
-    const { data: points } = await findPoints({ ...location })
+    const latlng = { latitude, longitude }
+    this.setState({ latlng })
+
+    const { data: points } = await findPoints({ ...latlng })
     this.setState({ points })
 
   }
@@ -97,7 +103,7 @@ class GoogleMaps extends React.Component {
       await updateOrCreateUserStatus({
         probability: 0,
         symptoms: [],
-        point: [this.state.location.lat, this.state.location.lng]
+        point: [this.state.location.latitude, this.state.location.longitude]
       })
     } catch (err) {
       alert("ocorreu um erro")
@@ -112,31 +118,37 @@ class GoogleMaps extends React.Component {
       <>
         <div className="content">
           <Row style={{ justifyContent: 'center' }}>
-            <Row style={{width:'100vh', padding: 8, borderRadius: 8, marginTop: 16, flexDirection: 'row' }}>
 
-              <Col style={{ flexDirection: 'column', marginTop: 16, justifyContent: 'center', display: 'flex' }}>
-                <p>Como você está se sentindo? </p>
-                <div style={{ display: 'flex', flexDirection: 'colums' }}>
-                  <Button
-                    color='success' onClick={this.userStatus}
-                  >Bem</Button>
-                  <Button
-                    color='danger'
-                    onClick={() => window.location.href = '/admin/regular-forms'}
-                  >Mal</Button>
-                </div>
+            <Col className="colInfoMap">
+              <p>Como você está se sentindo? </p>
+              <div style={{ display: 'flex', flexDirection: 'colums' }}>
+                <Button
+                  color='success' onClick={this.userStatus}
+                >Bem</Button>
+                <Button
+                  color='danger'
+                  onClick={() => window.location.href = '/admin/regular-forms'}
+                >Mal</Button>
+              </div>
 
-              </Col>
-              <Col style={{ flexDirection: 'column', marginTop: 16, justifyContent: 'center', display: 'flex' }}>
-                <p> 2 casos confirmados na sua região </p>
+            </Col>
+            <Col className="colInfoMap" style={{ alignItems: 'flex-start' }}>
+              <p>Detalhes da região</p>
+              <p style={{ color: '#FF8F39' }}>
+                <i className="nc-icon nc-alert-circle-i mr-2" />
+                {this.state.points.length + 1} casos na sua região </p>
 
-              </Col>
-            </Row>
+              <p style={{ color: '#74848B' }}>
+                <i className="nc-icon nc-pin-3 mr-2" />
+                {this.address}
+              </p>
+
+            </Col>
             <Col md="12">
               <Card>
                 <CardBody>
                   <this.RegularMap
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRkU_fs2PEkgQpl9VaH4RjIbwBpng1X4Y"
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC92EYBp1y9ok0hdO1myGrT8ODoy8-F30"
                     loadingElement={<div style={{ height: `100%` }} />}
                     containerElement={<div style={{ height: `500px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}

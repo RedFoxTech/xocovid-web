@@ -15,18 +15,6 @@
 
 */
 import React from "react";
-import classnames from "classnames";
-import { NavLink } from "react-router-dom";
-
-// reactstrap components
-import {
-  Collapse,
-  NavbarBrand,
-  Navbar,
-  NavItem,
-  Nav,
-  Container
-} from "reactstrap";
 
 class AuthNavbar extends React.Component {
   constructor(props) {

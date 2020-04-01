@@ -15,9 +15,7 @@
 
 */
 import React, { useEffect } from "react";
-import * as Yup from 'yup'
 
-import ErrorMessages from '../../constants/ErrorMessages'
 import { loginUser } from '../../services/user'
 import { saveToken, getToken } from '../../services/authenticate'
 
@@ -27,7 +25,6 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Form,
   Input,
   InputGroupAddon,
@@ -46,9 +43,11 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [visibleModal, setVisibleModal] = React.useState(false)
-  const authenticateUser = ({ token }) => {
-    saveToken(token)
+  localStorage.setItem('name', '');
+
+  const authenticateUser = (data) => {
+    localStorage.setItem('name', data.user.name)
+    saveToken(data.token)
   }
 
   function handleSubmit(e) {
@@ -64,14 +63,7 @@ const Login = () => {
       .then(() => history.push('/admin/google-maps'));
 
   }
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email(ErrorMessages.email)
-      .required(ErrorMessages.required),
-    acceptTerms: Yup.bool().oneOf([true], 'Os Termos e condidicoes sao obrigatorios'),
-    password: Yup.string()
-      .required(ErrorMessages.required)
-  })
+
 
   useEffect(() => {
     getToken().then(data => data ? history.push('/auth/login/') : null)

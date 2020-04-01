@@ -16,9 +16,6 @@
 */
 import React, { Component } from "react";
 // react plugin used to create switch buttons
-import Switch from "react-bootstrap-switch";
-
-import { Button } from "reactstrap";
 
 class FixedPlugin extends Component {
   constructor(props) {

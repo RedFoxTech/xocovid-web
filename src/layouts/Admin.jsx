@@ -26,6 +26,8 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
 
 import routes from "routes.js";
 
+
+
 var ps;
 
 class Admin extends React.Component {
@@ -38,6 +40,9 @@ class Admin extends React.Component {
     };
   }
   componentDidMount() {
+    if(localStorage.getItem('name') === ''){
+      window.location.href = "/auth/login"
+    }
     if (navigator.platform.indexOf("Win") > -1) {
       document.documentElement.className += " perfect-scrollbar-on";
       document.documentElement.classList.remove("perfect-scrollbar-off");
