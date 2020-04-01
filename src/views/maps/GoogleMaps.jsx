@@ -61,7 +61,7 @@ class GoogleMaps extends React.Component {
             icon={iconCase}
             
             key={i}
-            position={{ lat: marker.coordinates[0] + 4 * i, lng: marker.coordinates[1] + 10 }}
+            position={{ lat: marker.coordinates[0], lng: marker.coordinates[1] }}
           />
         ))}
 
