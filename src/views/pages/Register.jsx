@@ -77,7 +77,9 @@ const Register = (props) => {
             }} className="card-signup text-center">
               <CardHeader>
                 <CardTitle tag="h4">Cadastro</CardTitle>
-                <img src={require('../../assets/img/logo.png')} width="150"/>
+                <img src={require('../../assets/img/logo.png')} width="150" />
+                <p className="p-3 pb-0" style={{ textAlign: 'center', color: "#74848B", marginBottom: '-15px' }}>O aplicativo para você visualizar a situação do coronavírus na sua cidade </p>
+
               </CardHeader>
               <CardBody>
                 <Form onSubmit={handleSubmit} className="form" method="" >
