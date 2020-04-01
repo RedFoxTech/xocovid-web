@@ -65,6 +65,9 @@ class Sidebar extends React.Component {
       if (prop.redirect) {
         return null;
       }
+      if (prop.name === "Pages" || prop.name === "Forms") {
+        return null;
+      }
       if (prop.collapse) {
         var st = {};
         st[prop["state"]] = !this.state[prop.state];
@@ -91,14 +94,14 @@ class Sidebar extends React.Component {
                   </p>
                 </>
               ) : (
-                <>
-                  <span className="sidebar-mini-icon">{prop.mini}</span>
-                  <span className="sidebar-normal">
-                    {prop.name}
-                    <b className="caret" />
-                  </span>
-                </>
-              )}
+                  <>
+                    <span className="sidebar-mini-icon">{prop.mini}</span>
+                    <span className="sidebar-normal">
+                      {prop.name}
+                      <b className="caret" />
+                    </span>
+                  </>
+                )}
             </a>
             <Collapse isOpen={this.state[prop.state]}>
               <ul className="nav">{this.createLinks(prop.views)}</ul>
@@ -115,11 +118,11 @@ class Sidebar extends React.Component {
                 <p>{prop.name}</p>
               </>
             ) : (
-              <>
-                <span className="sidebar-mini-icon">{prop.mini}</span>
-                <span className="sidebar-normal">{prop.name}</span>
-              </>
-            )}
+                <>
+                  <span className="sidebar-mini-icon">{prop.mini}</span>
+                  <span className="sidebar-normal">{prop.name}</span>
+                </>
+              )}
           </NavLink>
         </li>
       );
@@ -165,7 +168,7 @@ class Sidebar extends React.Component {
             href="https://www.creative-tim.com"
             className="simple-text logo-normal"
           >
-            Creative Tim
+            XOCOVID
           </a>
         </div>
 
@@ -189,25 +192,26 @@ class Sidebar extends React.Component {
                 </span>
               </a>
               <Collapse isOpen={this.state.openAvatar}>
+                <br></br>
+                <p style={{ fontSize: '18px', color: '#FFF' }}>Olá, Bianca Nunes</p>
+                <p style={{color:'#FFF'}}><b>Que bom que você está bem!</b></p>
+                <p style={{color:'#FFF'}}>Mas não se esqueça:</p>
+                <ul>
+                  <li style={{color:'#FFF'}}>Use máscara facial</li>
+                  <li style={{color:'#FFF'}}>Lave as mãos frequentemente</li>
+                  <li style={{color:'#FFF'}}>Use Alcool Gel 70%</li>
+                </ul>
                 <ul className="nav">
                   <li>
-                    <NavLink to="/admin/user-profile" activeClassName="">
-                      <span className="sidebar-mini-icon">MP</span>
-                      <span className="sidebar-normal">My Profile</span>
+                    <NavLink to="/admin/user-profile" style={{ color: '#FFF!important' }} activeClassName="">
+                      {/* <span className="sidebar-mini-icon">MP</span>
+                      <span className="sidebar-normal">Meu Perfil</span> */}
+
+
+
                     </NavLink>
                   </li>
-                  <li>
-                    <NavLink to="/admin/user-profile" activeClassName="">
-                      <span className="sidebar-mini-icon">EP</span>
-                      <span className="sidebar-normal">Edit Profile</span>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/admin/user-profile" activeClassName="">
-                      <span className="sidebar-mini-icon">S</span>
-                      <span className="sidebar-normal">Settings</span>
-                    </NavLink>
-                  </li>
+
                 </ul>
               </Collapse>
             </div>

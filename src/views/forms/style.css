@@ -1,0 +1,31 @@
+.btn_sintomas {
+    background-color: #ECEFF1!important;
+    color: #414A4E!important;
+    font-weight: 500!important;
+}
+
+button.btn-round:focus, .btn-round:focus{
+    background-color: #FD0057!important;
+    color: #FFF!important;
+}
+
+button.btn:focus, .btn:active:focus, .btn:active{
+    background-color: #FD0057!important;
+    color: #FFF!important;
+}
+
+button.btn:active{
+    background-color: #FD0057!important;
+    color: #FFF!important;
+}
+
+button.btn-round:hover{
+    background-color: #FD0057!important;
+    color: #FFF!important;
+}
+
+.btn_contato {
+    border: 2px solid #FD0057!important;
+    color: #FD0057!important;
+    font-weight: 500!important;
+}

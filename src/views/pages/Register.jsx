@@ -15,6 +15,15 @@
 
 */
 import React from "react";
+import * as Yup from 'yup'
+
+import ErrorMessages from '../../constants/ErrorMessages'
+import { createUser } from '../../services/user';
+import Pages from '../../constants/Pages'
+
+import ReactBSAlert from "react-bootstrap-sweetalert";
+
+
 
 // reactstrap components
 import {
@@ -35,135 +44,159 @@ import {
   Row,
   Col
 } from "reactstrap";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
-class Register extends React.Component {
-  componentDidMount() {
-    document.body.classList.toggle("register-page");
+const Register = (props) => {
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [age, setAge] = useState('');
+  const [password, setPassword] = useState('');
+  const history = useHistory();
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required(ErrorMessages.required),
+    age: Yup.number()
+      .required(ErrorMessages.required),
+    email: Yup.string()
+      .email(ErrorMessages.email)
+      .required(ErrorMessages.required),
+    password: Yup.string()
+      .required(ErrorMessages.required)
+  });
+
+  const formatNumberMessage = message => message && typeof message === 'string' && /age must be a `number`/.test(message) && ErrorMessages.number;
+
+  const [state, setState] = useState(null);
+
+  function successAlert() {
+    this.setState({
+      alert: (
+        <ReactBSAlert
+          success
+          style={{ display: "block", marginTop: "-100px" }}
+          title="Good job!"
+          onConfirm={() => this.hideAlert()}
+          onCancel={() => this.hideAlert()}
+          confirmBtnBsStyle="info"
+        >
+          You clicked the button!
+        </ReactBSAlert>
+      )
+    });
+  };
+
+  function handleSubmit(e) {
+
+    e.preventDefault();
+    const data = {
+      name,
+      age,
+      email,
+      password
+    }
+    createUser(data)
+      .then(() => history.push('/auth/login'))
+      .catch(() => alert('Ocorreu um erro', 'Verifique os dados ou tente mais tarde'))
+
   }
-  componentWillUnmount() {
-    document.body.classList.toggle("register-page");
-  }
-  render() {
-    return (
-      <div className="register-page">
-        <Container>
-          <Row>
-            <Col className="ml-auto" lg="5" md="5">
-              <div className="info-area info-horizontal mt-5">
-                <div className="icon icon-primary">
-                  <i className="nc-icon nc-tv-2" />
-                </div>
-                <div className="description">
-                  <h5 className="info-title">Marketing</h5>
-                  <p className="description">
-                    We've created the marketing campaign of the website. It was
-                    a very interesting collaboration.
-                  </p>
-                </div>
-              </div>
-              <div className="info-area info-horizontal">
-                <div className="icon icon-primary">
-                  <i className="nc-icon nc-html5" />
-                </div>
-                <div className="description">
-                  <h5 className="info-title">Fully Coded in HTML5</h5>
-                  <p className="description">
-                    We've developed the website with HTML5 and CSS3. The client
-                    has access to the code using GitHub.
-                  </p>
-                </div>
-              </div>
-              <div className="info-area info-horizontal">
-                <div className="icon icon-info">
-                  <i className="nc-icon nc-atom" />
-                </div>
-                <div className="description">
-                  <h5 className="info-title">Built Audience</h5>
-                  <p className="description">
-                    There is also a Fully Customizable CMS Admin Dashboard for
-                    this product.
-                  </p>
-                </div>
-              </div>
-            </Col>
-            <Col className="mr-auto" lg="4" md="6">
-              <Card className="card-signup text-center">
-                <CardHeader>
-                  <CardTitle tag="h4">Register</CardTitle>
-                  <div className="social">
-                    <Button className="btn-icon btn-round" color="twitter">
-                      <i className="fa fa-twitter" />
-                    </Button>
-                    <Button className="btn-icon btn-round" color="dribbble">
-                      <i className="fa fa-dribbble" />
-                    </Button>
-                    <Button className="btn-icon btn-round" color="facebook">
-                      <i className="fa fa-facebook-f" />
-                    </Button>
-                    <p className="card-description">or be classical</p>
-                  </div>
-                </CardHeader>
-                <CardBody>
-                  <Form action="" className="form" method="">
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="nc-icon nc-single-02" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input placeholder="First Name..." type="text" />
-                    </InputGroup>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="nc-icon nc-circle-10" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input placeholder="Last Name..." type="text" />
-                    </InputGroup>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="nc-icon nc-email-85" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input placeholder="Email..." type="email" />
-                    </InputGroup>
-                    <FormGroup check className="text-left">
-                      <Label check>
-                        <Input defaultChecked type="checkbox" />
-                        <span className="form-check-sign" />I agree to the{" "}
-                        <a href="#pablo" onClick={e => e.preventDefault()}>
-                          terms and conditions
+
+  return (
+    <div className="register-page">
+      <Container >
+        <Row>
+          <Col className="mr-auto" lg="4" md="6">
+            <Card className="card-signup text-center">
+              <CardHeader>
+                <CardTitle tag="h4">Cadastro</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <Form onSubmit={handleSubmit} className="form" method="" >
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="nc-icon nc-single-02" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      placeholder="Digite seu nome completo"
+                      onChange={e => setName(e.target.value)}
+                      value={name}
+                    />
+                  </InputGroup>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="nc-icon nc-single-02" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      placeholder="Digite sua idade"
+                      onChange={e => setAge(e.target.value)}
+                      type="number"
+                      value={age}
+                    />
+                  </InputGroup>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="nc-icon nc-email-85" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input placeholder="Email" type="email"
+                      onChange={e => setEmail(e.target.value)}
+                      value={email}
+                    />
+                  </InputGroup>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="nc-icon nc-key-25" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input placeholder="Senha" type="password"
+                      onChange={e => setPassword(e.target.value)}
+                      value={password}
+                    />
+                  </InputGroup>
+                  <FormGroup check className="text-left">
+                    <Label check>
+                      <Input defaultChecked type="checkbox" />
+                      <span className="form-check-sign" />Eu concordo com{" "}
+                      <a href="#pablo" onClick={e => e.preventDefault()}>
+                        termos e condições
                         </a>
                         .
                       </Label>
-                    </FormGroup>
-                  </Form>
-                </CardBody>
-                <CardFooter>
-                  <Button
-                    className="btn-round"
-                    color="info"
-                    href="#pablo"
-                    onClick={e => e.preventDefault()}
-                  >
-                    Get Started
+                  </FormGroup>
+
+                  <CardFooter>
+                    <Button
+                      block
+                      className="btn-round"
+                      color="info"
+                      type="submit"
+                    >
+                      Enviar
                   </Button>
-                </CardFooter>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-        <div
-          className="full-page-background"
-          style={{
-            backgroundImage: `url(${require("assets/img/bg/jan-sendereks.jpg")})`
-          }}
-        />
-      </div>
-    );
-  }
+                  </CardFooter>
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+      <div
+        className="full-page-background"
+        style={{
+          backgroundImage: `url(${require("assets/img/bg/jan-sendereks.jpg")})`
+        }}
+      />
+    </div>
+  );
 }
+
 
 export default Register;

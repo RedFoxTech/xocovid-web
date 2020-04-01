@@ -123,9 +123,9 @@ class AdminNavbar extends React.Component {
               </div>
               <NavbarBrand href="#pablo" onClick={e => e.preventDefault()}>
                 <span className="d-none d-md-block">
-                  Paper Dashboard PRO React
+                  XOCOVID
                 </span>
-                <span className="d-block d-md-none">PD PRO React</span>
+                <span className="d-block d-md-none">XOCOVID</span>
               </NavbarBrand>
             </div>
             <button
@@ -157,7 +157,7 @@ class AdminNavbar extends React.Component {
                   </InputGroupAddon>
                 </InputGroup>
               </Form>
-              <Nav navbar>
+              {/* <Nav navbar>
                 <NavItem>
                   <NavLink
                     className="btn-magnify"
@@ -217,7 +217,7 @@ class AdminNavbar extends React.Component {
                     </p>
                   </NavLink>
                 </NavItem>
-              </Nav>
+              </Nav> */}
             </Collapse>
           </Container>
         </Navbar>

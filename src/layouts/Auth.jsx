@@ -60,7 +60,7 @@ class Pages extends React.Component {
       <>
         <AuthNavbar />
         <div className="wrapper wrapper-full-page" ref="fullPages">
-          <div className="full-page section-image">
+          <div  style={{alignItems:'center', display:'flex'}} className="full-page section-image">
             <Switch>{this.getRoutes(routes)}</Switch>
             <Footer fluid />
           </div>

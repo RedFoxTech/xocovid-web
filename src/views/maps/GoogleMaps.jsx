@@ -15,170 +15,145 @@
 
 */
 import React from "react";
+import { useHistory } from 'react-router-dom'
+
+import { findLocation } from '../../services/geolocation'
+import { updateOrCreateUserStatus } from '../../services/userStatus'
+import { findPoints } from '../../services/points'
+
+import { Button, View } from 'reactstrap'
 // // react components used to create a google map
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker
+  Marker,
 } from "react-google-maps";
 
 // reactstrap components
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 
-const SatelliteMap = withScriptjs(
-  withGoogleMap(props => (
-    <GoogleMap
-      defaultZoom={3}
-      mapTypeId={"satellite"}
-      defaultCenter={{ lat: 40.748817, lng: -73.985428 }}
-      defaultOptions={{
-        scrollwheel: false
-      }}
-    >
-      <Marker position={{ lat: 40.748817, lng: -73.985428 }} />
-    </GoogleMap>
-  ))
-);
 
-const RegularMap = withScriptjs(
-  withGoogleMap(props => (
-    <GoogleMap
-      defaultZoom={8}
-      defaultCenter={{ lat: 40.748817, lng: -73.985428 }}
-      defaultOptions={{
-        scrollwheel: false
-      }}
-    >
-      <Marker position={{ lat: 40.748817, lng: -73.985428 }} />
-    </GoogleMap>
-  ))
-);
 
-const CustomSkinMap = withScriptjs(
-  withGoogleMap(props => (
-    <GoogleMap
-      defaultZoom={13}
-      defaultCenter={{ lat: 40.748817, lng: -73.985428 }}
-      defaultOptions={{
-        scrollwheel: false,
-        disableDefaultUI: true,
-        zoomControl: true,
-        styles: [
-          {
-            featureType: "water",
-            stylers: [
-              { saturation: 43 },
-              { lightness: -11 },
-              { hue: "#0088ff" }
-            ]
-          },
-          {
-            featureType: "road",
-            elementType: "geometry.fill",
-            stylers: [
-              { hue: "#ff0000" },
-              { saturation: -100 },
-              { lightness: 99 }
-            ]
-          },
-          {
-            featureType: "road",
-            elementType: "geometry.stroke",
-            stylers: [{ color: "#808080" }, { lightness: 54 }]
-          },
-          {
-            featureType: "landscape.man_made",
-            elementType: "geometry.fill",
-            stylers: [{ color: "#ece2d9" }]
-          },
-          {
-            featureType: "poi.park",
-            elementType: "geometry.fill",
-            stylers: [{ color: "#ccdca1" }]
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#767676" }]
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.stroke",
-            stylers: [{ color: "#ffffff" }]
-          },
-          { featureType: "poi", stylers: [{ visibility: "off" }] },
-          {
-            featureType: "landscape.natural",
-            elementType: "geometry.fill",
-            stylers: [{ visibility: "on" }, { color: "#b8cb93" }]
-          },
-          { featureType: "poi.park", stylers: [{ visibility: "on" }] },
-          {
-            featureType: "poi.sports_complex",
-            stylers: [{ visibility: "on" }]
-          },
-          { featureType: "poi.medical", stylers: [{ visibility: "on" }] },
-          {
-            featureType: "poi.business",
-            stylers: [{ visibility: "simplified" }]
-          }
-        ]
-      }}
-    >
-      <Marker position={{ lat: 40.748817, lng: -73.985428 }} />
-    </GoogleMap>
-  ))
-);
 
 class GoogleMaps extends React.Component {
+
+  RegularMap = withScriptjs(
+
+    withGoogleMap(props => (
+      <GoogleMap
+        defaultZoom={8}
+        defaultCenter={{ lat: parseFloat(localStorage.getItem('lat')), lng: parseFloat(localStorage.getItem('lng')) }}
+        defaultOptions={{
+          scrollwheel: false
+        }}
+      >
+        <Marker position={{ lat: parseFloat(localStorage.getItem('lat')), lng: parseFloat(localStorage.getItem('lng')) }} />
+        <Marker
+          averageCenter
+          enableRetinaIcons
+          gridSize={60}
+        >
+
+          {this.state.points ? this.state.points.map((marker, i) => (
+            <Marker
+              key={i}
+              position={{ lat: marker.coordinates[0], lng: marker.coordinates[1] }}
+            >
+            </Marker>
+          )) : null}
+        </Marker>
+
+      </GoogleMap>
+    ))
+  );
+
+
+  state = {
+    location: false,
+    errorMessage: null,
+    points: []
+  }
+  async componentDidMount() {
+
+    // try {
+    const location = await findLocation()
+
+    const latitude = localStorage.getItem('lat');
+    const longitude = localStorage.getItem('lng');
+
+    location = { latitude, longitude }
+    this.setState({ location })
+
+    const { data: points } = await findPoints({ ...location })
+    this.setState({ points })
+
+  }
+
+
+  userStatus = async () => {
+    alert("registrando")
+    try {
+      await updateOrCreateUserStatus({
+        probability: 0,
+        symptoms: [],
+        point: [this.state.location.lat, this.state.location.lng]
+      })
+    } catch (err) {
+      alert("ocorreu um erro")
+    }
+  }
+
+
+
+
   render() {
     return (
       <>
         <div className="content">
-          <Row>
+          <Row style={{ justifyContent: 'center' }}>
+            <Row style={{width:'100vh', padding: 8, borderRadius: 8, marginTop: 16, flexDirection: 'row' }}>
+
+              <Col style={{ flexDirection: 'column', marginTop: 16, justifyContent: 'center', display: 'flex' }}>
+                <p>Como você está se sentindo? </p>
+                <div style={{ display: 'flex', flexDirection: 'colums' }}>
+                  <Button
+                    color='success' onClick={this.userStatus}
+                  >Bem</Button>
+                  <Button
+                    color='danger'
+                    onClick={() => window.location.href = '/admin/regular-forms'}
+                  >Mal</Button>
+                </div>
+
+              </Col>
+              <Col style={{ flexDirection: 'column', marginTop: 16, justifyContent: 'center', display: 'flex' }}>
+                <p> 2 casos confirmados na sua região </p>
+
+              </Col>
+            </Row>
             <Col md="12">
               <Card>
                 <CardBody>
-                  <SatelliteMap
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
+                  <this.RegularMap
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRkU_fs2PEkgQpl9VaH4RjIbwBpng1X4Y"
                     loadingElement={<div style={{ height: `100%` }} />}
                     containerElement={<div style={{ height: `500px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
-                  />
+                    defaultCenter={{ lat: 40, lng: 50 }}
+                  >,
+                    {this.state.points ? [...this.state.points.map((item, i) => <Marker
+                    key={i}
+                    coordinate={{
+                      latitude: item.coordinates[0],
+                      longitude: item.coordinates[1]
+                    }} />)] : null}
+
+                  </this.RegularMap>
                 </CardBody>
               </Card>
             </Col>
-            <Col md="6">
-              <Card>
-                <CardHeader>
-                  <CardTitle tag="h4">Regular Map</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <RegularMap
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
-                    loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `500px` }} />}
-                    mapElement={<div style={{ height: `100%` }} />}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-            <Col md="6">
-              <Card>
-                <CardHeader>
-                  <CardTitle tag="h4">Custom Skin &amp; Settings Map</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <CustomSkinMap
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
-                    loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `500px` }} />}
-                    mapElement={<div style={{ height: `100%` }} />}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
+
           </Row>
         </div>
       </>

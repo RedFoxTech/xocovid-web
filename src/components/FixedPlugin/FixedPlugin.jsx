@@ -38,7 +38,7 @@ class FixedPlugin extends Component {
   render() {
     return (
       <div className="fixed-plugin">
-        <div className={this.state.classes}>
+        {/* <div className={this.state.classes}>
           <div onClick={this.handleClick}>
             <i className="fa fa-cog fa-2x" />
           </div>
@@ -187,7 +187,7 @@ class FixedPlugin extends Component {
               </Button>
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     );
   }

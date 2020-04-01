@@ -1,0 +1,18 @@
+version: '3'
+services:
+
+  web:
+    image: node:10
+    command:  "npm start"
+    working_dir: /app
+    volumes:
+      - ./:/app
+      
+    ports:
+      - "3000:3000"
+    networks:
+      - base
+
+
+networks:
+  base:

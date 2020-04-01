@@ -16,6 +16,11 @@
 */
 import React from "react";
 
+import './style.css';
+
+import { findLocation } from '../../services/geolocation'
+import { updateOrCreateUserStatus } from '../../services/userStatus'
+
 // reactstrap components
 import {
   Button,
@@ -34,373 +39,170 @@ import {
 } from "reactstrap";
 
 class RegularForms extends React.Component {
+  constructor(props) {
+    super(props)
+    this.setSelected = this.setSelected.bind(this)
+  }
+  state = {
+    checked: false,
+    visibleModal: false,
+    suspiciousPeople: null,
+    casesConfirmed: null,
+    yourCaseConfirmed: null,
+    traveled: null
+  }
+  onNextStep = () => this.forceUpdate()
+  requestUserStatus = params => {
+    updateOrCreateUserStatus({
+      ...params,
+      point: [localStorage.getItem('lat'), localStorage.getItem('lng')]
+    })
+  }
+  onSubmitProgress = (e) => {
+    const symptoms = this.data.filter(item => item.selected).map(i => i.text)
+
+    findLocation()
+      .then(this.requestUserStatus({ symptoms, probability: 1, ...this.state }))
+      .then(this.setState({ visibleModal: true }))
+  }
+  data = [
+    { text: 'Cansaço', selected: false },
+    { text: 'Congestão nasal', selected: false },
+    { text: 'Coriza', selected: false },
+    { text: 'Dificuldade de respirar', selected: false },
+    { text: 'Dor de cabeça', selected: false },
+    { text: 'Dor de garganta', selected: false },
+    { text: 'Dor no corpo', selected: false },
+    { text: 'Febre', selected: false },
+    { text: 'Tosse', selected: false },
+    { text: 'Mal star em geral', selected: false },
+  ];
+
+  setSelected() {
+    return item => () => {
+      item.selected = !item.selected
+      this.forceUpdate()
+    }
+  }
+
   render() {
+    const { suspiciousPeople, casesConfirmed, yourCaseConfirmed, traveled } = this.state;
     return (
       <>
         <div className="content">
           <Row>
-            <Col md="6">
-              <Card>
-                <CardHeader>
-                  <CardTitle tag="h4">Stacked Form</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <Form action="#" method="#">
-                    <label>Email address</label>
-                    <FormGroup>
-                      <Input placeholder="Enter email" type="email" />
-                    </FormGroup>
-                    <label>Password</label>
-                    <FormGroup>
-                      <Input
-                        placeholder="Password"
-                        type="password"
-                        autoComplete="off"
-                      />
-                    </FormGroup>
-                    <FormGroup check className="mt-3">
-                      <FormGroup check>
-                        <Label check>
-                          <Input defaultValue="" type="checkbox" />
-                          Subscribe to newsletter{" "}
-                          <span className="form-check-sign" />
-                        </Label>
-                      </FormGroup>
-                    </FormGroup>
-                  </Form>
-                </CardBody>
-                <CardFooter>
-                  <Button className="btn-round" color="info" type="submit">
-                    Submit
-                  </Button>
-                </CardFooter>
-              </Card>
-            </Col>
-            <Col md="6">
-              <Card>
-                <CardHeader>
-                  <CardTitle tag="h4">Horizontal Form</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <Form className="form-horizontal">
-                    <Row>
-                      <Label md="3">Username</Label>
-                      <Col md="9">
-                        <FormGroup>
-                          <Input placeholder="Username" type="text" />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Label md="3">Email</Label>
-                      <Col md="9">
-                        <FormGroup>
-                          <Input placeholder="Email" type="email" />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Label md="3">Password</Label>
-                      <Col md="9">
-                        <FormGroup>
-                          <Input
-                            placeholder="Password"
-                            type="password"
-                            autoComplete="off"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="3" />
-                      <Col md="9">
-                        <FormGroup check>
-                          <Label check>
-                            <Input type="checkbox" />
-                            <span className="form-check-sign" />
-                            Remember me
-                          </Label>
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </Form>
-                </CardBody>
-                <CardFooter>
-                  <Row>
-                    <Col md="3" />
-                    <Col md="9">
-                      <Button className="btn-round" color="info" type="submit">
-                        Sign in
-                      </Button>
-                    </Col>
-                  </Row>
-                </CardFooter>
-              </Card>
-            </Col>
             <Col md="12">
-              <Card>
+              <Card >
                 <CardHeader>
-                  <CardTitle tag="h4">Form Elements</CardTitle>
+                  <CardTitle style={{ fontSize: '20px' }} tag="h4">O que voce está sentindo?</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <Form action="/" className="form-horizontal" method="get">
-                    <Row>
-                      <Label sm="2">With help</Label>
-                      <Col sm="10">
-                        <FormGroup>
-                          <Input type="text" />
-                          <FormText color="default" tag="span">
-                            A block of help text that breaks onto a new line.
-                          </FormText>
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Label sm="2">Password</Label>
-                      <Col sm="10">
-                        <FormGroup>
-                          <Input type="password" autoComplete="off" />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Label sm="2">Placeholder</Label>
-                      <Col sm="10">
-                        <FormGroup>
-                          <Input placeholder="placeholder" type="text" />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Label sm="2">Disabled</Label>
-                      <Col sm="10">
-                        <FormGroup>
-                          <Input
-                            defaultValue="Disabled input here.."
-                            disabled
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Label sm="2">Static control</Label>
-                      <Col sm="10">
-                        <FormGroup>
-                          <p className="form-control-static">
-                            hello@creative-tim.com
-                          </p>
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Label sm="2">Checkboxes and radios</Label>
-                      <Col className="checkbox-radios" sm="10">
-                        <FormGroup check>
-                          <Label check>
-                            <Input type="checkbox" />
-                            <span className="form-check-sign" />
-                            First Checkbox
-                          </Label>
-                        </FormGroup>
-                        <FormGroup check>
-                          <Label check>
-                            <Input type="checkbox" />
-                            <span className="form-check-sign" />
-                            Second Checkbox
-                          </Label>
-                        </FormGroup>
-                        <div className="form-check-radio">
-                          <Label check>
-                            <Input
-                              defaultValue="option1"
-                              id="exampleRadios11"
-                              name="exampleRadioz"
-                              type="radio"
-                            />
-                            First Radio <span className="form-check-sign" />
-                          </Label>
-                        </div>
-                        <div className="form-check-radio">
-                          <Label check>
-                            <Input
-                              defaultChecked
-                              defaultValue="option2"
-                              id="exampleRadios12"
-                              name="exampleRadioz"
-                              type="radio"
-                            />
-                            Second Radio <span className="form-check-sign" />
-                          </Label>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Label sm="2">Inline checkboxes</Label>
-                      <Col sm="10">
-                        <FormGroup check inline>
-                          <Label check>
-                            <Input defaultChecked type="checkbox" />
-                            <span className="form-check-sign" />a
-                          </Label>
-                        </FormGroup>{" "}
-                        <FormGroup check inline>
-                          <Label check>
-                            <Input type="checkbox" />
-                            <span className="form-check-sign" />b
-                          </Label>
-                        </FormGroup>{" "}
-                        <FormGroup check inline>
-                          <Label check>
-                            <Input type="checkbox" />
-                            <span className="form-check-sign" />c
-                          </Label>
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </Form>
+                  {
+                    this.data.map((item, i) => {
+                      return (
+                        <Button
+                          color="neutral"
+                          style={item.selected === true ? { backgroundColor: "#FD0057!important" } : null}
+                          className="btn-round btn_sintomas"
+                          key={i}
+                          onClick={this.setSelected(this.data)(item)}
+                        >{item.text}</Button>)
+                    })
+                  }
                 </CardBody>
               </Card>
             </Col>
             <Col md="12">
               <Card>
                 <CardHeader>
-                  <CardTitle tag="h4">Input Variants</CardTitle>
+                  <CardTitle style={{ fontSize: '20px' }} tag="h4">Teve contato com alguma pessoa com caso suspeito?</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <Form action="/" className="form-horizontal" method="get">
-                    <Row>
-                      <Label sm="2">Custom Checkboxes &amp; radios</Label>
-                      <Col className="checkbox-radios" sm="4">
-                        <FormGroup check>
-                          <Label check>
-                            <Input type="checkbox" />
-                            <span className="form-check-sign" />
-                            Unchecked
-                          </Label>
-                        </FormGroup>
-                        <FormGroup check>
-                          <Label check>
-                            <Input defaultChecked type="checkbox" />
-                            <span className="form-check-sign" />
-                            Checked
-                          </Label>
-                        </FormGroup>
-                        <FormGroup check disabled>
-                          <Label check>
-                            <Input disabled type="checkbox" />
-                            <span className="form-check-sign" />
-                            Disabled Unchecked
-                          </Label>
-                        </FormGroup>
-                        <FormGroup check disabled>
-                          <Label check>
-                            <Input disabled type="checkbox" />
-                            <span className="form-check-sign" />
-                            Disabled Checked
-                          </Label>
-                        </FormGroup>
-                      </Col>
-                      <Col lg="3" sm="6">
-                        <div className="form-check-radio">
-                          <Label check>
-                            <Input
-                              defaultValue="option1"
-                              id="exampleRadios1"
-                              name="exampleRadios"
-                              type="radio"
-                            />
-                            Radio is off <span className="form-check-sign" />
-                          </Label>
-                        </div>
-                        <div className="form-check-radio">
-                          <Label check>
-                            <Input
-                              defaultChecked
-                              defaultValue="option2"
-                              id="exampleRadios2"
-                              name="exampleRadios"
-                              type="radio"
-                            />
-                            Radio is on <span className="form-check-sign" />
-                          </Label>
-                        </div>
-                        <div className="form-check-radio disabled">
-                          <Label check>
-                            <Input
-                              defaultValue="option3"
-                              disabled
-                              id="exampleRadios3"
-                              name="exampleRadios"
-                              type="radio"
-                            />
-                            Disabled radio is off{" "}
-                            <span className="form-check-sign" />
-                          </Label>
-                        </div>
-                        <div className="form-check-radio disabled">
-                          <Label check>
-                            <Input
-                              defaultChecked
-                              defaultValue="option4"
-                              disabled
-                              id="exampleRadios4"
-                              name="exampleRadioz"
-                              type="radio"
-                            />
-                            Disabled radio is on{" "}
-                            <span className="form-check-sign" />
-                          </Label>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Label sm="2">Input with success</Label>
-                      <Col sm="10">
-                        <FormGroup className="has-success">
-                          <Input defaultValue="Success" type="text" />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Label sm="2">Input with error</Label>
-                      <Col sm="10">
-                        <FormGroup className="has-danger">
-                          <Input defaultValue="Error" type="text" />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Label sm="2">Column sizing</Label>
-                      <Col sm="10">
-                        <Row>
-                          <Col md="3">
-                            <FormGroup>
-                              <Input placeholder=".col-md-3" type="text" />
-                            </FormGroup>
-                          </Col>
-                          <Col md="4">
-                            <FormGroup>
-                              <Input placeholder=".col-md-4" type="text" />
-                            </FormGroup>
-                          </Col>
-                          <Col md="5">
-                            <FormGroup>
-                              <Input placeholder=".col-md-5" type="text" />
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                  </Form>
+                  <Button className="btn_contato" color="neutral"
+                    onClick={() => this.setState({ suspiciousPeople: true })}
+                  >Sim</Button>
+                  <Button className="btn_contato" color="neutral"
+                    onClick={() => this.setState({ suspiciousPeople: false })}
+                  >Não</Button>
+
                 </CardBody>
+
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle style={{ fontSize: '20px' }} tag="h4">Teve contato com alguma pessoa com caso confirmado nos ultimos 15 dias?</CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Button
+                    color="neutral"
+                    className="btn_contato"
+                    onClick={() => this.setState({ casesConfirmed: true })}
+                  >Sim</Button>
+                  <Button
+                    className="btn_contato"
+                    color="neutral"
+                    onClick={() => this.setState({ casesConfirmed: false })}
+                  >Não</Button>
+
+                </CardBody>
+
               </Card>
             </Col>
           </Row>
+          <Row>
+            <Col md="12">
+              <Card>
+                <CardHeader>
+                  <CardTitle style={{ fontSize: '20px' }} tag="h4">Você testou positivo para o covid-19?</CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Button
+                    className="btn_contato"
+                    color="neutral"
+                    onClick={() => this.setState({ yourCaseConfirmed: true })}
+                  >Sim</Button>
+                  <Button
+                    className="btn_contato"
+                    color="neutral"
+                    onClick={() => this.setState({ yourCaseConfirmed: false })}
+                  >Não</Button>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col md="12">
+              <Card>
+                <CardHeader>
+                  <CardTitle style={{ fontSize: '20px' }} tag="h4">Esteve em algum outro pais nos ultimos 14 dias?</CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Button
+                    className="btn_contato"
+                    color="neutral"
+                    onClick={() => this.setState({ traveled: true })}
+                  >Sim</Button>
+                  <Button
+                    className="btn_contato"
+                    color="neutral"
+                    onClick={() => this.setState({ traveled: false })}
+                  >Não</Button>
+                </CardBody>
+              </Card>
+              <Button
+                block
+                style={{ boxShadow: 'rgba(65, 74, 78, 0.15) 5px 5px 20px 0px' }}
+                className="btn_sintomas btn-round"
+                color="neutral"
+                onClick={this.onSubmitProgress}>Enviar</Button>
+            </Col>
+
+          </Row>
+
+
         </div>
       </>
     );
   }
 }
+
 
 export default RegularForms;

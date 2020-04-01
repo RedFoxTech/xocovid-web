@@ -14,7 +14,12 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useEffect } from "react";
+import * as Yup from 'yup'
+
+import ErrorMessages from '../../constants/ErrorMessages'
+import { loginUser } from '../../services/user'
+import { saveToken, getToken } from '../../services/authenticate'
 
 // reactstrap components
 import {
@@ -23,8 +28,6 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Label,
-  FormGroup,
   Form,
   Input,
   InputGroupAddon,
@@ -34,88 +37,115 @@ import {
   Col,
   Row
 } from "reactstrap";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
-class Login extends React.Component {
-  componentDidMount() {
-    document.body.classList.toggle("login-page");
+
+const Login = () => {
+  const history = useHistory();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [visibleModal, setVisibleModal] = React.useState(false)
+  const authenticateUser = ({ token }) => {
+    saveToken(token)
   }
-  componentWillUnmount() {
-    document.body.classList.toggle("login-page");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const data = {
+      email,
+      password
+    }
+
+    loginUser(data)
+      .then(({ data }) => authenticateUser(data))
+      .then(() => history.push('/admin/google-maps'));
+
   }
-  render() {
-    return (
-      <div className="login-page">
-        <Container>
-          <Row>
-            <Col className="ml-auto mr-auto" lg="4" md="6">
-              <Form action="" className="form" method="">
-                <Card className="card-login">
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email(ErrorMessages.email)
+      .required(ErrorMessages.required),
+    acceptTerms: Yup.bool().oneOf([true], 'Os Termos e condidicoes sao obrigatorios'),
+    password: Yup.string()
+      .required(ErrorMessages.required)
+  })
+
+  useEffect(() => {
+    getToken().then(data => data ? history.push('/auth/login/') : null)
+  }, [getToken])
+
+  return (
+    <div className="login-page">
+      <Container>
+        <Row>
+          <Col className="ml-auto mr-auto" lg="4" md="6">
+            <Form onSubmit={handleSubmit} className="form" method="">
+              <Card className="card-login">
+                <CardHeader>
                   <CardHeader>
-                    <CardHeader>
-                      <h3 className="header text-center">Login</h3>
-                    </CardHeader>
+                    <h3 className="header text-center">Login</h3>
                   </CardHeader>
-                  <CardBody>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="nc-icon nc-single-02" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input placeholder="First Name..." type="text" />
-                    </InputGroup>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="nc-icon nc-key-25" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        placeholder="Password"
-                        type="password"
-                        autoComplete="off"
-                      />
-                    </InputGroup>
-                    <br />
-                    <FormGroup>
-                      <FormGroup check>
-                        <Label check>
-                          <Input
-                            defaultChecked
-                            defaultValue=""
-                            type="checkbox"
-                          />
-                          <span className="form-check-sign" />
-                          Subscribe to newsletter
-                        </Label>
-                      </FormGroup>
-                    </FormGroup>
-                  </CardBody>
-                  <CardFooter>
-                    <Button
-                      block
-                      className="btn-round mb-3"
-                      color="warning"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      Get Started
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </Form>
-            </Col>
-          </Row>
-        </Container>
-        <div
-          className="full-page-background"
-          style={{
-            backgroundImage: `url(${require("assets/img/bg/fabio-mangione.jpg")})`
-          }}
-        />
-      </div>
-    );
-  }
+                </CardHeader>
+                <CardBody>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="nc-icon nc-single-02" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input placeholder="Email" type="text"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                    />
+                  </InputGroup>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="nc-icon nc-key-25" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      placeholder="Senha"
+                      type="password"
+                      autoComplete="off"
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
+                    />
+                  </InputGroup>
+                  <Button
+                    block
+                    className="btn-round mb-3 mt-3"
+                    color="warning"
+                    type="submit"
+                  >
+                    Entrar
+                  </Button>
+                  <Button
+                    block
+                    className="btn-round mb-3"
+                    color="primary"
+                    onClick={() => history.push('/auth/Register')}
+                  >
+                    Cadastrar
+                  </Button>
+                </CardBody>
+              </Card>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+      <div
+        className="full-page-background"
+        style={{
+          backgroundImage: `url(${require("assets/img/bg/fabio-mangione.jpg")})`
+        }}
+      />
+    </div>
+  );
 }
 
 export default Login;
+

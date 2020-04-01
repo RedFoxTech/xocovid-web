@@ -63,22 +63,22 @@ class SweetAlert extends React.Component {
       )
     });
   };
-  successAlert = () => {
-    this.setState({
-      alert: (
-        <ReactBSAlert
-          success
-          style={{ display: "block", marginTop: "-100px" }}
-          title="Good job!"
-          onConfirm={() => this.hideAlert()}
-          onCancel={() => this.hideAlert()}
-          confirmBtnBsStyle="info"
-        >
-          You clicked the button!
-        </ReactBSAlert>
-      )
-    });
-  };
+  // successAlert = () => {
+  //   this.setState({
+  //     alert: (
+  //       <ReactBSAlert
+  //         success
+  //         style={{ display: "block", marginTop: "-100px" }}
+  //         title="Good job!"
+  //         onConfirm={() => this.hideAlert()}
+  //         onCancel={() => this.hideAlert()}
+  //         confirmBtnBsStyle="info"
+  //       >
+  //         You clicked the button!
+  //       </ReactBSAlert>
+  //     )
+  //   });
+  // };
   htmlAlert = () => {
     this.setState({
       alert: (
