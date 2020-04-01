@@ -70,7 +70,7 @@ class RegularForms extends React.Component {
     { text: 'Dor no corpo', selected: false },
     { text: 'Febre', selected: false },
     { text: 'Tosse', selected: false },
-    { text: 'Mal star em geral', selected: false },
+    { text: 'Mal estar em geral', selected: false },
   ];
 
   setSelected() {

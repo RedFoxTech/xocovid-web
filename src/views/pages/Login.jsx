@@ -76,10 +76,17 @@ const Login = () => {
           <Col className="ml-auto mr-auto" lg="4" md="6">
             <Form onSubmit={handleSubmit} className="form" method="">
               <Card className="card-login">
-                <CardHeader>
+                <CardHeader style={{
+                  justifyContent: 'center', alignItems: 'center',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}>
                   <CardHeader>
                     <h3 className="header text-center">Login</h3>
+
                   </CardHeader>
+                  <img className="mr-auto ml-auto" src={require('../../assets/img/logo.png')} width="150" />
+
                 </CardHeader>
                 <CardBody>
                   <InputGroup>
@@ -135,7 +142,7 @@ const Login = () => {
           backgroundImage: `url(${require("assets/img/bg/fabio-mangione.jpg")})`
         }}
       />
-    </div>
+    </div >
   );
 }
 

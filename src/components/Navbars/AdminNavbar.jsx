@@ -17,7 +17,7 @@
 import React from "react";
 import classnames from "classnames";
 
-import logo from '../../assets/img/logo.png'
+import logo from '../../assets/img/logo2.png'
 
 import {
   Button,

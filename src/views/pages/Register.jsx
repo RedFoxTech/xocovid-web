@@ -70,13 +70,14 @@ const Register = (props) => {
   return (
     <div style={{ backgroundColor: 'rgba(196, 196, 196, 0.2' }} className="register-page">
       <Container >
-        <Row style={{ alignItems: 'center', display: 'flex'}}>
+        <Row style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
           <Col lg="4" md="6">
             <Card style={{
               boxShadow: '0 6px 10px -4px rgba(0, 0, 0, 0.15)'
             }} className="card-signup text-center">
               <CardHeader>
                 <CardTitle tag="h4">Cadastro</CardTitle>
+                <img src={require('../../assets/img/logo.png')} width="150"/>
               </CardHeader>
               <CardBody>
                 <Form onSubmit={handleSubmit} className="form" method="" >
