@@ -20,8 +20,6 @@ import { Nav, Collapse } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 
-import avatar from "assets/img/faces/ayo-ogunseinde-2.jpg";
-import logo from "assets/img/react-logo.png";
 
 var ps;
 
@@ -175,26 +173,7 @@ class Sidebar extends React.Component {
                 </span>
               </a>
               <Collapse isOpen={this.state.openAvatar}>
-                <br></br>
-                <p style={{ color: '#FFF' }}><b>Que bom que você está bem!</b></p>
-                <p style={{ color: '#FFF' }}>Mas não se esqueça:</p>
-                <ul>
-                  <li style={{ color: '#FFF' }}>Use máscara facial</li>
-                  <li style={{ color: '#FFF' }}>Lave as mãos frequentemente</li>
-                  <li style={{ color: '#FFF' }}>Use Alcool Gel 70%</li>
-                </ul>
-                <ul className="nav">
-                  <li>
-                    <NavLink to="/admin/user-profile" style={{ color: '#FFF!important' }} activeClassName="">
-                      {/* <span className="sidebar-mini-icon">MP</span>
-                      <span className="sidebar-normal">Meu Perfil</span> */}
 
-
-
-                    </NavLink>
-                  </li>
-
-                </ul>
               </Collapse>
             </div>
           </div>

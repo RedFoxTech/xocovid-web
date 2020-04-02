@@ -114,7 +114,7 @@ class AdminNavbar extends React.Component {
               </div>
               <NavbarBrand href="#pablo" onClick={e => e.preventDefault()}>
 
-                <span><img width='200' src={logo}></img></span>
+                <span><img width='200' src={logo} alt="logo xocovid"></img></span>
               </NavbarBrand>
             </div>
             <button

@@ -14,10 +14,10 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useEffect } from "react";
+import React from "react";
 
 import { loginUser } from '../../services/user'
-import { saveToken, getToken } from '../../services/authenticate'
+import { saveToken } from '../../services/authenticate'
 
 // reactstrap components
 import {
@@ -65,9 +65,9 @@ const Login = () => {
   }
 
 
-  useEffect(() => {
-    getToken().then(data => data ? history.push('/auth/login/') : null)
-  }, [getToken])
+  // useEffect(() => {
+  //   getToken().then(data => data ? history.push('/auth/login/') : null)
+  // }, [getToken])
 
   return (
     <div className="login-page">
@@ -85,7 +85,7 @@ const Login = () => {
                     <h3 className="header text-center">Login</h3>
 
                   </CardHeader>
-                  <img className="mr-auto ml-auto" src={require('../../assets/img/logo.png')} width="150" />
+                  <img alt="logo xocovid" className="mr-auto ml-auto" src={require('../../assets/img/logo.png')} width="150" />
                   <p className="p-3 pb-0" style={{ textAlign: 'center', color: "#74848B", marginBottom:'-15px' }}>O aplicativo para você visualizar a situação do coronavírus na sua cidade </p>
                 </CardHeader>
                 <CardBody>
