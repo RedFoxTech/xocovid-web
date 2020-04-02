@@ -73,7 +73,8 @@ const Register = (props) => {
         <Row style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
           <Col lg="4" md="6">
             <Card style={{
-              boxShadow: '0 6px 10px -4px rgba(0, 0, 0, 0.15)'
+              boxShadow: '0 6px 10px -4px rgba(0, 0, 0, 0.15)',
+              backgroundColor:'#FFF!important'
             }} className="card-signup text-center">
               <CardHeader>
                 <CardTitle tag="h4">Cadastro</CardTitle>

@@ -75,7 +75,7 @@ const Login = () => {
         <Row>
           <Col className="ml-auto mr-auto" lg="4" md="6">
             <Form onSubmit={handleSubmit} className="form" method="">
-              <Card className="card-login">
+              <Card className="card-login" style={{backgroundColor:'#FFF!important'}}>
                 <CardHeader style={{
                   justifyContent: 'center', alignItems: 'center',
                   display: 'flex',
