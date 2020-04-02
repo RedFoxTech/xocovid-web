@@ -47,7 +47,7 @@ class GoogleMaps extends React.Component {
 
     withGoogleMap(props => (
       <GoogleMap
-        defaultZoom={13}
+        defaultZoom={2}
         defaultCenter={{ lat: parseFloat(localStorage.getItem('lat')), lng: parseFloat(localStorage.getItem('lng')) }}
         defaultOptions={{
           scrollwheel: false
