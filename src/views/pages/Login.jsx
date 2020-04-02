@@ -142,7 +142,7 @@ const Login = () => {
           backgroundImage: `url(${require("assets/img/bg/fabio-mangione.jpg")})`
         }}
       />
-    </div >
+    </div>
   );
 }
 
