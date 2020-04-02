@@ -129,7 +129,7 @@ class GoogleMaps extends React.Component {
                 >Bem</Button>
                 <Button
                   color='danger'
-                  onClick={() => window.location.href = '/admin/regular-forms'}
+                  onClick={() => window.location.href = '/admin/wizard'}
                 >Mal</Button>
               </div>
 
