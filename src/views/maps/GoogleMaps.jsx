@@ -88,11 +88,14 @@ class GoogleMaps extends React.Component {
 
     axios.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + localStorage.getItem('lat') + ',' + localStorage.getItem('lng') + '&key=AIzaSyAC92EYBp1y9ok0hdO1myGrT8ODoy8-F30').then((response) => (this.address = (response.data.results[0].formatted_address)))
 
+    console.log(this.address)
     const location = { latitude, longitude }
     this.setState({ location })
 
     const { data: points } = await findPoints({ ...location })
     this.setState({ points })
+
+
 
   }
 

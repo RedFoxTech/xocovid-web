@@ -36,17 +36,21 @@ import {
 } from "reactstrap";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { findLocation } from "services/geolocation";
 
 
 const Login = () => {
+  findLocation()
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   localStorage.setItem('name', '');
+  localStorage.setItem('lat', '');
+  localStorage.setItem('lng', '');
 
   const authenticateUser = (data) => {
-    localStorage.setItem('name', data.user.name)
+    localStorage.setItem('name', data.user._doc.name)
     saveToken(data.token)
   }
 
@@ -60,7 +64,7 @@ const Login = () => {
 
     loginUser(data)
       .then(({ data }) => authenticateUser(data))
-      .then(() => history.push('/admin/google-maps'));
+      .then(() => history.push('/admin/wizard'));
 
   }
 

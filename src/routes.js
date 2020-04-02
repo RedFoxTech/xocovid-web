@@ -20,6 +20,7 @@ import Login from "views/pages/Login.jsx";
 import Register from "views/pages/Register.jsx";
 import RegularForms from "views/forms/RegularForms.jsx";
 import UserProfile from "views/pages/UserProfile.jsx";
+import Wizard from "views/forms/Wizard";
 
 const routes = [
 
@@ -69,6 +70,13 @@ const routes = [
         name: "Regular Forms",
         mini: "RF",
         component: RegularForms,
+        layout: "/admin"
+      },
+      {
+        path: "/wizard",
+        name: "Wizard",
+        mini: "RF",
+        component: Wizard,
         layout: "/admin"
       }
     ]

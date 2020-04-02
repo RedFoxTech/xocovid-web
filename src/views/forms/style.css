@@ -1,31 +1,82 @@
 .btn_sintomas {
-    background-color: #ECEFF1!important;
-    color: #414A4E!important;
-    font-weight: 500!important;
+    background-color: #ECEFF1 !important;
+    color: #414A4E !important;
+    font-weight: 500 !important;
 }
 
-button.btn-round:focus, .btn-round:focus{
-    background-color: #FD0057!important;
-    color: #FFF!important;
+button.btn-round:focus,
+.btn-round:focus {
+    background-color: #FD0057 !important;
+    color: #FFF !important;
 }
 
-button.btn:focus, .btn:active:focus, .btn:active{
-    background-color: #FD0057!important;
-    color: #FFF!important;
+button.btn:focus,
+.btn:active:focus,
+.btn:active {
+    background-color: #FD0057 !important;
+    color: #FFF !important;
 }
 
-button.btn:active{
-    background-color: #FD0057!important;
-    color: #FFF!important;
+button.btn:active {
+    background-color: #FD0057 !important;
+    color: #FFF !important;
 }
 
-button.btn-round:hover{
-    background-color: #FD0057!important;
-    color: #FFF!important;
+button.btn-round:hover {
+    background-color: #FD0057 !important;
+    color: #FFF !important;
 }
 
 .btn_contato {
-    border: 2px solid #FD0057!important;
-    color: #FD0057!important;
-    font-weight: 500!important;
+    border: 2px solid #FD0057 !important;
+    color: #FD0057 !important;
+    font-weight: 500 !important;
+}
+
+.form-symptoms ul{
+    background-color: #10345899!important;
+}
+
+.form-symptoms li{
+    width: 20%!important;
+}
+
+.tab-content {
+    min-height: 0px!important;
+}
+
+.moving-tab{
+    background-color: #103458!important;
+    width: 20%!important;
+}
+
+.symptoms-button{
+    background-color: #103458!important;
+    color: #FFF!important;
+}
+
+.check {
+    border-radius: 30px;
+    padding: 8px 24px;
+    margin:0px 10px;
+}
+
+.check-symptoms {
+    background-color: #ECEFF1;
+}
+
+.check:hover, .symptoms-button:hover {
+    background-color: #FD0057!important;
+    color: #FFF!important;
+}
+
+.check-symptoms-active {
+    background-color: #FD0057;
+    color: #FFF;
+}
+
+.check h6 {
+    font-weight: 400;
+    margin-top: 5px;
+    font-size: 12px;
 }

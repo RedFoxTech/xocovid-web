@@ -29,7 +29,8 @@ import {
   CardBody,
   CardTitle,
   Row,
-  Col
+  Col,
+  Input
 } from "reactstrap";
 
 class RegularForms extends React.Component {
@@ -54,11 +55,11 @@ class RegularForms extends React.Component {
   }
   onSubmitProgress = (e) => {
     const symptoms = this.data.filter(item => item.selected).map(i => i.text)
-
+    console.log(this.data)
     findLocation()
       .then(this.requestUserStatus({ symptoms, probability: 1, ...this.state }))
       .then(this.setState({ visibleModal: true }))
-      .then(window.location.href = '/admin/google-maps')
+      // .then(window.location.href = '/admin/google-maps')
   }
   data = [
     { text: 'Cansaço', selected: false },
