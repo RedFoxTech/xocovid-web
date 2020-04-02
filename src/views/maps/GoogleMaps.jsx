@@ -88,17 +88,16 @@ class GoogleMaps extends React.Component {
 
     axios.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + localStorage.getItem('lat') + ',' + localStorage.getItem('lng') + '&key=AIzaSyAC92EYBp1y9ok0hdO1myGrT8ODoy8-F30').then((response) => (this.address = (response.data.results[0].formatted_address)))
 
-    const latlng = { latitude, longitude }
-    this.setState({ latlng })
+    const location = { latitude, longitude }
+    this.setState({ location })
 
-    const { data: points } = await findPoints({ ...latlng })
+    const { data: points } = await findPoints({ ...location })
     this.setState({ points })
 
   }
 
 
   userStatus = async () => {
-    alert("registrando")
     try {
       await updateOrCreateUserStatus({
         probability: 0,
@@ -136,7 +135,7 @@ class GoogleMaps extends React.Component {
               <p>Detalhes da região</p>
               <p style={{ color: '#FF8F39' }}>
                 <i className="nc-icon nc-alert-circle-i mr-2" />
-                {this.state.points.length + 1} casos na sua região </p>
+                {this.state.points.length } casos na sua região </p>
 
               <p style={{ color: '#74848B' }}>
                 <i className="nc-icon nc-pin-3 mr-2" />
