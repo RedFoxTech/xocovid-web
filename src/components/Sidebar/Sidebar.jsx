@@ -20,6 +20,8 @@ import { Nav, Collapse } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 
+import './style.css';
+
 
 var ps;
 
@@ -152,7 +154,7 @@ class Sidebar extends React.Component {
     return (
       <div
         className="sidebar"
-        data-color={this.props.bgColor}
+        style={{backgroundColor:"#E8E8E7"}}
         data-active-color={this.props.activeColor}
       >
 

@@ -1,18 +1,12 @@
 /*!
-
 =========================================================
 * Paper Dashboard PRO React - v1.1.0
 =========================================================
-
 * Product Page: https://www.creative-tim.com/product/paper-dashboard-pro-react
 * Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
 * Coded by Creative Tim
-
 =========================================================
-
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
 */
 import React from "react";
 
@@ -29,8 +23,7 @@ import {
   CardBody,
   CardTitle,
   Row,
-  Col,
-  Input
+  Col
 } from "reactstrap";
 
 class RegularForms extends React.Component {
@@ -55,11 +48,10 @@ class RegularForms extends React.Component {
   }
   onSubmitProgress = (e) => {
     const symptoms = this.data.filter(item => item.selected).map(i => i.text)
-    console.log(this.data)
+
     findLocation()
       .then(this.requestUserStatus({ symptoms, probability: 1, ...this.state }))
       .then(this.setState({ visibleModal: true }))
-      // .then(window.location.href = '/admin/google-maps')
   }
   data = [
     { text: 'Cansaço', selected: false },
@@ -71,7 +63,7 @@ class RegularForms extends React.Component {
     { text: 'Dor no corpo', selected: false },
     { text: 'Febre', selected: false },
     { text: 'Tosse', selected: false },
-    { text: 'Mal estar em geral', selected: false },
+    { text: 'Mal star em geral', selected: false },
   ];
 
   setSelected() {
@@ -198,6 +190,4 @@ class RegularForms extends React.Component {
     );
   }
 }
-
-
 export default RegularForms;

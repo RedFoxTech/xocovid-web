@@ -14,41 +14,62 @@ import classnames from "classnames";
 import '../style.css';
 
 // reactstrap components
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 class Wizard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      suspiciousPeople: null
-    }
-  }
+    constructor(props) {
+        super(props);
+        this.data = [
+            { text: 'Diabetes', selected: false },
+            { text: 'Pressão alta', selected: false },
+        ]
 
-  setSelected() {
-    return item => () => {
-      item.selected = !item.selected
-      this.forceUpdate()
+        this.state = {
+            chronic: this.data
+        }
     }
-  }
 
-  render() {
-    return (
-      <>
-        <h5 className="info-text">Teve contato com alguma pessoa com caso suspeito?</h5>
-        <Row className="justify-content-center">
-          <Col lg="10">
-            <Row style={{ paddin: '5px', justifyContent:'center' }}>
-              <Button className="btn_contato" color="neutral"
-                onClick={() => this.setState({ suspiciousPeople: true })}
-              >Sim</Button>
-              <Button className="btn_contato" color="neutral"
-                onClick={() => this.setState({ suspiciousPeople: false })}
-              >Não</Button>
-            </Row>
-          </Col>
-        </Row>
-      </>
-    );
-  }
+    setSelected() {
+        return item => () => {
+            item.selected = !item.selected
+            this.forceUpdate()
+        }
+    }
+
+    render() {
+        return (
+            <>
+                <h5 className="info-text">Quais doenças crônicas possui?</h5>
+                <Row className="justify-content-center">
+                    <Col lg="10">
+                        <Row style={{ paddin: '5px', justifyContent:'center' }}>
+                            {
+                                this.data.map((item, i) => {
+                                    return (
+                                        <div
+                                            key={i}
+                                            className={`${classnames("choice", {
+                                                active: item.selected
+                                            })} check ${item.selected ? "check-symptoms-active" : "check-symptoms"}`}
+                                            data-toggle="wizard-checkbox"
+                                            onClick={this.setSelected(this.data)(item)}
+                                        >
+                                            <input
+                                                defaultValue={item.text}
+                                                name="jobb"
+                                                type="checkbox"
+                                                defaultChecked={item.selected}
+                                            />
+                                            <h6>{item.text}</h6>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </Row>
+                    </Col>
+                </Row>
+            </>
+        );
+    }
 }
 export default Wizard;

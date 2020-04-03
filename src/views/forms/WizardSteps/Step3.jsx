@@ -14,13 +14,19 @@ import classnames from "classnames";
 import '../style.css';
 
 // reactstrap components
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 class Wizard extends React.Component {
     constructor(props) {
         super(props);
+        this.data = [
+            { text: 'Infarto', selected: false },
+            { text: 'Insuficiência cardíaca', selected: false },
+            { text: 'Arritmia cardíaca', selected: false },
+        ]
+
         this.state = {
-            casesConfirmed: null
+            heart: this.data
         }
     }
 
@@ -34,20 +40,32 @@ class Wizard extends React.Component {
     render() {
         return (
             <>
-                <h5 className="info-text">Teve contato com alguma pessoa com caso confirmado nos ultimos 15 dias?</h5>
+                <h5 className="info-text">Você tem ou teve algum dos problemas de coração abaixo?</h5>
                 <Row className="justify-content-center">
                     <Col lg="10">
-                        <Row style={{ paddin: '5px', justifyContent: 'center' }}>
-                            <Button
-                                color="neutral"
-                                className="btn_contato"
-                                onClick={() => this.setState({ casesConfirmed: true })}
-                            >Sim</Button>
-                            <Button
-                                className="btn_contato"
-                                color="neutral"
-                                onClick={() => this.setState({ casesConfirmed: false })}
-                            >Não</Button>
+                        <Row style={{ paddin: '5px', justifyContent:'center' }}>
+                            {
+                                this.data.map((item, i) => {
+                                    return (
+                                        <div
+                                            key={i}
+                                            className={`${classnames("choice", {
+                                                active: item.selected
+                                            })} check ${item.selected ? "check-symptoms-active" : "check-symptoms"}`}
+                                            data-toggle="wizard-checkbox"
+                                            onClick={this.setSelected(this.data)(item)}
+                                        >
+                                            <input
+                                                defaultValue={item.text}
+                                                name="jobb"
+                                                type="checkbox"
+                                                defaultChecked={item.selected}
+                                            />
+                                            <h6>{item.text}</h6>
+                                        </div>
+                                    )
+                                })
+                            }
                         </Row>
                     </Col>
                 </Row>

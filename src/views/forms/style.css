@@ -37,17 +37,12 @@ button.btn-round:hover {
     background-color: #10345899!important;
 }
 
-.form-symptoms li{
-    width: 20%!important;
-}
-
 .tab-content {
     min-height: 0px!important;
 }
 
 .moving-tab{
     background-color: #103458!important;
-    width: 20%!important;
 }
 
 .symptoms-button{

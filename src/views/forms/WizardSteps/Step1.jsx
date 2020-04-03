@@ -20,16 +20,12 @@ class Wizard extends React.Component {
     constructor(props) {
         super(props);
         this.data = [
-            { text: 'Cansaço', selected: false },
-            { text: 'Congestão nasal', selected: false },
-            { text: 'Coriza', selected: false },
-            { text: 'Dificuldade de respirar', selected: false },
-            { text: 'Dor de cabeça', selected: false },
-            { text: 'Dor de garganta', selected: false },
-            { text: 'Dor no corpo', selected: false },
             { text: 'Febre', selected: false },
             { text: 'Tosse', selected: false },
-            { text: 'Mal estar em geral', selected: false }
+            { text: 'Nariz entupido', selected: false },
+            { text: 'Dor de garganta', selected: false },
+            { text: 'Coriza', selected: false },
+            { text: 'Falta de ar', selected: false}
         ]
 
         this.state = {
@@ -47,10 +43,10 @@ class Wizard extends React.Component {
     render() {
         return (
             <>
-                <h5 className="info-text">O que voce está sentindo?</h5>
+                <h5 className="info-text">Quais sintomas apresentou?</h5>
                 <Row className="justify-content-center">
                     <Col lg="10">
-                        <Row style={{ paddin: '5px' }}>
+                        <Row style={{ paddin: '5px', justifyContent:'center' }}>
                             {
                                 this.data.map((item, i) => {
                                     return (

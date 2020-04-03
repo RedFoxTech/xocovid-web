@@ -86,17 +86,13 @@ class GoogleMaps extends React.Component {
     const latitude = localStorage.getItem('lat');
     const longitude = localStorage.getItem('lng');
 
-    axios.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + localStorage.getItem('lat') + ',' + localStorage.getItem('lng') + '&key=AIzaSyAC92EYBp1y9ok0hdO1myGrT8ODoy8-F30').then((response) => (this.address = (response.data.results[0].formatted_address)))
+    await axios.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + localStorage.getItem('lat') + ',' + localStorage.getItem('lng') + '&key=AIzaSyAC92EYBp1y9ok0hdO1myGrT8ODoy8-F30').then((response) => (this.address = (response.data.results[0].formatted_address)))
 
-    console.log(this.address)
     const location = { latitude, longitude }
     this.setState({ location })
 
     const { data: points } = await findPoints({ ...location })
     this.setState({ points })
-
-
-
   }
 
 
@@ -155,13 +151,7 @@ class GoogleMaps extends React.Component {
                     containerElement={<div style={{ height: `500px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     defaultCenter={{ lat: 40, lng: 50 }}
-                  >,
-                    {this.state.points ? [...this.state.points.map((item, i) => <Marker
-                    key={i}
-                    coordinate={{
-                      latitude: item.coordinates[0],
-                      longitude: item.coordinates[1]
-                    }} />)] : null}
+                  >
 
                   </this.RegularMap>
                 </CardBody>
