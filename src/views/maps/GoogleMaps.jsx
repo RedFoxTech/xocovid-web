@@ -59,7 +59,7 @@ class GoogleMaps extends React.Component {
         {this.state.points.map((marker, i) => (
           <Marker
             icon={iconCase}
-            
+
             key={i}
             position={{ lat: marker.coordinates[0], lng: marker.coordinates[1] }}
           />
@@ -118,23 +118,18 @@ class GoogleMaps extends React.Component {
           <Row style={{ justifyContent: 'center' }}>
 
             <Col className="colInfoMap">
-              <p>Como você está se sentindo? </p>
-              <div style={{ display: 'flex', flexDirection: 'colums' }}>
-                <Button
-                  color='success' onClick={this.userStatus}
-                >Bem</Button>
-                <Button
-                  color='danger'
-                  onClick={() => window.location.href = '/admin/wizard'}
-                >Mal</Button>
-              </div>
+              <p style={{textAlign:'center'}}>Como você está se sentindo? Faça sua avaliação! </p>
+              <Button
+                onClick={() => window.location.href = '/admin/wizard'}
+              >Vamos lá</Button>
+
 
             </Col>
             <Col className="colInfoMap" style={{ alignItems: 'flex-start' }}>
               <p>Detalhes da região</p>
               <p style={{ color: '#FF8F39' }}>
                 <i className="nc-icon nc-alert-circle-i mr-2" />
-                {this.state.points.length } casos na sua região </p>
+                {this.state.points.length} casos na sua região </p>
 
               <p style={{ color: '#74848B' }}>
                 <i className="nc-icon nc-pin-3 mr-2" />

@@ -27,6 +27,8 @@ import "assets/scss/paper-dashboard.scss?v=1.1.0";
 import "assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 
+
+
 const hist = createBrowserHistory();
 
 ReactDOM.render(

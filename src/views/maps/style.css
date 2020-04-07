@@ -11,8 +11,15 @@
     box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
 }
 
-.colInfoMap h4{
+.colInfoMap h4 {
     font-size: 16px;
     color: red;
     font-weight: 600;
+}
+
+.colInfoMap button {
+
+    background-color: #103458!important;
+    color: #FFF!important
+
 }

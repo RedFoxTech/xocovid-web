@@ -33,15 +33,12 @@ button.btn-round:hover {
     font-weight: 500 !important;
 }
 
-.form-symptoms ul{
-    background-color: #10345899!important;
-}
-
-.tab-content {
+.card-wizard .tab-content{
     min-height: 0px!important;
 }
 
-.moving-tab{
+
+.moving-tab {
     background-color: #103458!important;
 }
 

@@ -26,7 +26,6 @@ import Step5 from "./WizardSteps/Step5.jsx";
 import Step6 from "./WizardSteps/Step6.jsx";
 import Step7 from "./WizardSteps/Step7.jsx";
 import Step8 from "./WizardSteps/Step8.jsx";
-import Step9 from "./WizardSteps/Step9.jsx";
 
 import { findLocation } from '../../services/geolocation'
 import { updateOrCreateUserStatus } from '../../services/userStatus'
@@ -34,48 +33,38 @@ import { updateOrCreateUserStatus } from '../../services/userStatus'
 var steps = [
   {
     stepName: "1",
-    stepIcon: "",
+    stepIcon: "fas fa-stethoscope",
     component: Step1
   },
   {
     stepName: "2",
-    stepIcon: "",
+    stepIcon: "fas fa-dna",
     component: Step2
   },
   {
     stepName: "3",
-    stepIcon: "",
+    stepIcon: "fas fa-heart",
     component: Step3
   },
   {
     stepName: "4",
-    stepIcon: "",
+    stepIcon: "fas fa-lungs",
     component: Step4
   },
   {
     stepName: "5",
-    stepIcon: "",
+    stepIcon: "fas fa-notes-medical",
     component: Step5
   },
   {
     stepName: "6",
-    stepIcon: "",
+    stepIcon: "fas fa-viruses",
     component: Step6
   },
   {
     stepName: "7",
-    stepIcon: "",
+    stepIcon: "fas fa-hospital-symbol",
     component: Step7
-  },
-  {
-    stepName: "8",
-    stepIcon: "",
-    component: Step8
-  },
-  {
-    stepName: "9",
-    stepIcon: "",
-    component: Step9
   }
 ];
 
@@ -83,9 +72,8 @@ class Wizard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: true,
       modalInit: false,
-      modalFinish: false,
+      modalFinish: false
     };
   }
 
@@ -98,39 +86,48 @@ class Wizard extends React.Component {
       modalInit: !this.state.modalInit
     });
   };
+  toggleModalFinish = () => {
+    this.setState({
+      modalFinish: !this.state.modalFinish
+    });
+  };
 
   requestUserStatus = params => {
     updateOrCreateUserStatus({
       ...params,
       point: [localStorage.getItem('lat'), localStorage.getItem('lng')]
     })
+
+    this.toggleModalFinish()
+
   }
   finishButtonClick = (e) => {
+    const casesConfirmed = e[6].casesConfirmed;
+    const yourCaseConfirmed = e[7].yourCaseConfirmed;
+    const symptoms = e[1].symptoms.filter(item => item.selected).map(i => i.text);
+    const chronic = e[2].chronic.filter(item => item.selected).map(i => i.text);
+    const heart = e[3].heart.filter(item => item.selected).map(i => i.text);
+    const respiratory = e[4].respiratory.filter(item => item.selected).map(i => i.text);
+    const immunological = e[5].immunological.filter(item => item.selected).map(i => i.text);
 
-    this.setState({
-      suspiciousPeople: e[6].suspiciousPeople,
-      casesConfirmed: e[7].casesConfirmed,
-      yourCaseConfirmed: e[8].yourCaseConfirmed,
-    })
+    if (symptoms.length === 0 && !this.state.casesConfirmed && !this.state.yourCaseConfirmed){
+      this.res = 'Baseado em suas respostas, as chances contaminação pelo coronavírus 2019 são baixas. No entanto, isto não se trata de um dignóstico. A orientação é que você procure atendimento em uma unidade de saúde mais próxima para avaliação médica'
+      return this.requestUserStatus({ probability: 0 })
+    }
+      // .then(window.location.href = '/admin/google-maps');
 
-    const symptoms = e[1].symptoms.filter(item => item.selected).map(i => i.text)
-    const chronic = e[2].chronic.filter(item => item.selected).map(i => i.text)
-    const heart = e[3].heart.filter(item => item.selected).map(i => i.text)
-    const respiratory = e[4].respiratory.filter(item => item.selected).map(i => i.text)
-    const immunological = e[5].immunological.filter(item => item.selected).map(i => i.text)
+    this.res = 'Baseado em suas respostas, é possível que esta situação se enquadre como caso suspeito ou provável de doença pelo coronavírus 2019 (covid-19). No entanto, isto não se trata de um dignóstico. A orientação é que você procure atendimento em uma unidade de saúde mais próxima para avaliação médica'
 
-    findLocation()
-      .then(this.requestUserStatus({ symptoms, chronic, heart, respiratory, immunological, probability: 1, ...this.state }))
-      .then(window.location.href = '/admin/google-maps')
+    return this.requestUserStatus({ symptoms, chronic, heart, respiratory, immunological,           probability: 1, casesConfirmed, yourCaseConfirmed })
+    // .then(window.location.href = '/admin/google-maps');
 
   }
   render() {
     return (
       <>
-        <div className="content" >
+        <div className="content" style={{ padding: '0px' }}>
           <Modal
             className="modal-sm"
-            modalclassName="modal-primary"
             isOpen={this.state.modalInit}
             toggle={this.toggleModalInit}
           >
@@ -157,20 +154,20 @@ class Wizard extends React.Component {
             <ReactWizard
               steps={steps}
               title=""
-              progressbar
               description=""
               headerTextCenter
               finishButtonClasses="symptoms-button"
               nextButtonClasses="symptoms-button"
               previousButtonClasses="symptoms-button"
+              finishButtonText="Finalizar"
+              nextButtonText="Próximo"
+              previousButtonText="Anterior"
               finishButtonClick={this.finishButtonClick}
             />
           </Col>
           <Modal
             className="modal-sm"
-            modalclassName="modal-primary"
             isOpen={this.state.modalFinish}
-            toggle={this.toggleModalFinish}
           >
             <div className="modal-header justify-content-center">
               <div className="modal-profile ml-auto mr-auto">
@@ -178,16 +175,16 @@ class Wizard extends React.Component {
               </div>
             </div>
             <div className="modal-body">
-              <p style={{ textAlign: 'center' }}>Baseado em suas respostas, é possível que esta situação se enquadre como caso suspeito ou provável de doença pelo coronavírus 2019 (covid-19). No entanto, isto não se trata de um dignóstico. A orientação é que você procure atendimento em uma unidade de saúde mais próxima para avaliação médica</p>
+              <p style={{ textAlign: 'center' }}>{this.res}</p>
             </div>
             <div className="modal-footer">
               <Button
                 color="link"
                 data-dismiss="modal"
                 type="button"
-                onClick={this.toggleModalFinish}
+                onClick={() => window.location.href='/admin/google-maps'}
               >
-                Fechar </Button>
+                Entendi </Button>
 
             </div>
           </Modal>

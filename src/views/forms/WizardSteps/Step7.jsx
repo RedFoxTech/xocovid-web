@@ -19,7 +19,7 @@ class Wizard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            casesConfirmed: null
+            yourCaseConfirmed: null
         }
     }
 
@@ -33,20 +33,20 @@ class Wizard extends React.Component {
     render() {
         return (
             <>
-                <h5 className="info-text">Teve contato com alguma pessoa com caso confirmado nos ultimos 15 dias?</h5>
+                <h5 className="info-text">Você testou positivo para o covid-19?</h5>
                 <Row className="justify-content-center">
                     <Col lg="10">
                         <Row style={{ paddin: '5px', justifyContent: 'center' }}>
-                            <Button
-                                color="neutral"
-                                className="btn_contato"
-                                onClick={() => this.setState({ casesConfirmed: true })}
-                            >Sim</Button>
-                            <Button
-                                className="btn_contato"
-                                color="neutral"
-                                onClick={() => this.setState({ casesConfirmed: false })}
-                            >Não</Button>
+                        <Button
+                    className="btn_contato"
+                    color="neutral"
+                    onClick={() => this.setState({ yourCaseConfirmed: true })}
+                  >Sim</Button>
+                  <Button
+                    className="btn_contato"
+                    color="neutral"
+                    onClick={() => this.setState({ yourCaseConfirmed: false })}
+                  >Não</Button>
                         </Row>
                     </Col>
                 </Row>

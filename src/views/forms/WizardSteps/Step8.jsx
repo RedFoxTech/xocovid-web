@@ -13,40 +13,18 @@ import React from "react";
 import '../style.css';
 
 // reactstrap components
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 class Wizard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            yourCaseConfirmed: null
-        }
-    }
 
-    setSelected() {
-        return item => () => {
-            item.selected = !item.selected
-            this.forceUpdate()
-        }
-    }
 
     render() {
         return (
             <>
-                <h5 className="info-text">Você testou positivo para o covid-19?</h5>
                 <Row className="justify-content-center">
                     <Col lg="10">
                         <Row style={{ paddin: '5px', justifyContent: 'center' }}>
-                        <Button
-                    className="btn_contato"
-                    color="neutral"
-                    onClick={() => this.setState({ yourCaseConfirmed: true })}
-                  >Sim</Button>
-                  <Button
-                    className="btn_contato"
-                    color="neutral"
-                    onClick={() => this.setState({ yourCaseConfirmed: false })}
-                  >Não</Button>
+                            <h5 className="info-text">Baseado em suas respostas, é possível que esta situação se enquadre como caso suspeito ou provável de doença pelo coronavírus 2019 (covid-19). No entanto, isto não se trata de um dignóstico. A orientação é que você procure atendimento em uma unidade de saúde mais próxima para avaliação médica</h5>
                         </Row>
                     </Col>
                 </Row>
