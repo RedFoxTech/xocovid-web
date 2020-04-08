@@ -25,9 +25,7 @@ import Step4 from "./WizardSteps/Step4.jsx";
 import Step5 from "./WizardSteps/Step5.jsx";
 import Step6 from "./WizardSteps/Step6.jsx";
 import Step7 from "./WizardSteps/Step7.jsx";
-import Step8 from "./WizardSteps/Step8.jsx";
 
-import { findLocation } from '../../services/geolocation'
 import { updateOrCreateUserStatus } from '../../services/userStatus'
 
 var steps = [

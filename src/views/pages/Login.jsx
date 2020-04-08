@@ -44,6 +44,7 @@ const Login = () => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [err, setErr] = useState('');
 
   localStorage.setItem('name', '');
   localStorage.setItem('lat', '');
@@ -54,17 +55,20 @@ const Login = () => {
     saveToken(data.token)
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const data = {
       email,
       password
     }
-
-    loginUser(data)
-      .then(({ data }) => authenticateUser(data))
-      .then(() => history.push('/admin/wizard'));
+    try {
+      await loginUser(data)
+        .then(({ data }) => authenticateUser(data))
+        .then(() => history.push('/admin/wizard'))
+    } catch (error) {
+      setErr('Login ou senha inválido')
+    }
 
   }
 
@@ -79,7 +83,7 @@ const Login = () => {
         <Row>
           <Col className="ml-auto mr-auto" lg="4" md="6">
             <Form onSubmit={handleSubmit} className="form" method="">
-              <Card className="card-login" style={{backgroundColor:'#FFF!important'}}>
+              <Card className="card-login" style={{ backgroundColor: '#FFF!important' }}>
                 <CardHeader style={{
                   justifyContent: 'center', alignItems: 'center',
                   display: 'flex',
@@ -90,7 +94,7 @@ const Login = () => {
 
                   </CardHeader>
                   <img alt="logo xocovid" className="mr-auto ml-auto" src={require('../../assets/img/logo.png')} width="150" />
-                  <p className="p-3 pb-0" style={{ textAlign: 'center', color: "#74848B", marginBottom:'-15px' }}>O aplicativo para você visualizar a situação do coronavírus na sua cidade </p>
+                  <p className="p-3 pb-0" style={{ textAlign: 'center', color: "#74848B", marginBottom: '-15px' }}>O aplicativo para você visualizar a situação do coronavírus na sua cidade </p>
                 </CardHeader>
                 <CardBody>
                   <InputGroup>
@@ -118,6 +122,7 @@ const Login = () => {
                       onChange={e => setPassword(e.target.value)}
                     />
                   </InputGroup>
+                  <p style={{ color: 'red', fontSize:'14px' }}>{err}</p>
                   <Button
                     block
                     className="btn-round mb-3 mt-3"
