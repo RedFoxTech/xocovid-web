@@ -169,7 +169,7 @@ class Wizard extends React.Component {
           >
             <div className="modal-header justify-content-center">
               <div className="modal-profile ml-auto mr-auto">
-                <i className="nc-icon nc-bulb-63" />
+                <i className="nc-icon nc-alert-circle-i" />
               </div>
             </div>
             <div className="modal-body">
