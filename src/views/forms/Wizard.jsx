@@ -164,7 +164,7 @@ class Wizard extends React.Component {
             />
           </Col>
           <Modal
-            className="modal-sm"
+            className="modal-md"
             isOpen={this.state.modalFinish}
           >
             <div className="modal-header justify-content-center">

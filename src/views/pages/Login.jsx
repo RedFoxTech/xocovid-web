@@ -51,7 +51,7 @@ const Login = () => {
   localStorage.setItem('lng', '');
 
   const authenticateUser = (data) => {
-    localStorage.setItem('name', data.user._doc.name)
+    localStorage.setItem('name', data.user.name)
     saveToken(data.token)
   }
 

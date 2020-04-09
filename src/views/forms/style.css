@@ -37,8 +37,14 @@ button.btn-round:hover {
     min-height: 0px!important;
 }
 
+.form-symptoms a{
+    height: 38px;
+    padding: 0px;
+}
 
 .moving-tab {
+    height: 38px;
+    padding: 0px;
     background-color: #103458!important;
 }
 
