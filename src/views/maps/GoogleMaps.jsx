@@ -117,7 +117,7 @@ class GoogleMaps extends React.Component {
         <div className="content">
           <Row style={{ justifyContent: 'center' }}>
 
-            <Col className="colInfoMap">
+            <Col className="colInfoMap" sm="12" lg="6">
               <p style={{textAlign:'center'}}>Como você está se sentindo? Faça sua avaliação! </p>
               <Button
                 onClick={() => window.location.href = '/admin/wizard'}

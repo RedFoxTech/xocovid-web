@@ -44,7 +44,7 @@ button.btn-round:hover {
 
 .moving-tab {
     height: 38px;
-    padding: 0px;
+    padding: 6px!important;
     background-color: #103458!important;
 }
 
