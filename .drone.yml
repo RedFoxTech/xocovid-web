@@ -1,0 +1,113 @@
+kind: pipeline
+name: default
+trigger:
+  branch:
+    - dev
+    - staging
+    - master
+
+  event:
+    - push
+
+steps:
+  - name: code-analysis
+    image: aosapps/drone-sonar-plugin
+    settings:
+      sonar_host:
+        from_secret: sonar_host
+      sonar_token:
+        from_secret: sonar_token
+    sources: ./src
+
+---
+kind: pipeline
+name: build-staging
+depends_on:
+  - default
+trigger:
+  branch:
+    - staging
+  event:
+    - push
+
+steps:
+
+- name: install
+  image: node:10
+  commands:
+    - npm install
+
+- name: publish
+  image: banzaicloud/drone-kaniko
+  settings:
+    registry: gcr.io
+    repo: redfox-tech/xocovid-client-staging
+    tags:
+      - latest
+    build_args:
+      - VERSION=latest
+    username: _json_key
+    password:
+      from_secret: gcp_credentials
+
+---
+kind: pipeline
+name: build-develop
+depends_on:
+  - default
+trigger:
+  branch:
+    - develop
+  event:
+    - push
+
+steps:
+- name: install
+  image: node:10
+  commands:
+    - npm install
+
+- name: publish
+  image: banzaicloud/drone-kaniko
+  settings:
+    registry: gcr.io
+    repo: redfox-tech/xocovid-client-dev
+    tags:
+      - latest
+    build_args:
+      - VERSION=latest
+    username: _json_key
+    password:
+      from_secret: gcp_credentials
+
+---
+kind: pipeline
+name: build-production
+depends_on:
+  - default
+trigger:
+  branch:
+    - master
+  event:
+    - push
+
+steps:
+
+- name: install
+  image: node:10
+  commands:
+    - npm install
+
+- name: publish
+  image: banzaicloud/drone-kaniko
+  settings:
+    registry: gcr.io
+    repo: redfox-tech/xocovid-client-prod 
+    tags:
+      - latest
+    build_args:
+      - VERSION=latest
+    username: _json_key
+    password:
+      from_secret: gcp_credentials
+

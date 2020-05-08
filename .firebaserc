@@ -1,0 +1,16 @@
+{
+  "targets": {
+    "xocovid-redfox": {
+      "hosting": {
+        "xocovid-redfox": [
+          "xocovid-redfox"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "xocovid-redfox"
+  }
+}
+
+
